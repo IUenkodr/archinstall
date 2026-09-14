@@ -17,5 +17,8 @@ class PowerUserProfile(Profile):
             ],
         )
 
+    def is_top_level_profile(self) -> bool:
+        return True
+
     def preview_text(self) -> str:
         return "Modern Rust-based CLI tooling (eza, bat, rg, fd, btm, zoxide, fzf, nvim)"
