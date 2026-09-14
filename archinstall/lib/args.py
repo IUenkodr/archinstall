@@ -136,11 +136,9 @@ class ArchConfigType(StrEnum):
 			case ArchConfigType.PACKAGES:
 				return tr('Additional packages')
 			case ArchConfigType.PACMAN_CONFIG:
-			case ArchConfigType.PACMAN_CONFIG:
 				return tr('Pacman')
 			case ArchConfigType.THIRD_PARTY_REPOS:
 				return tr("Third Party Repositories")
-				return tr('Pacman')
 			case ArchConfigType.CUSTOM_COMMANDS:
 				return tr('Custom commands')
 			case ArchConfigType.USERS:
