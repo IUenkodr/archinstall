@@ -2,16 +2,41 @@
 <img src="https://github.com/archlinux/archinstall/raw/master/docs/logo.png" alt="drawing" width="200"/>
 
 <!-- </div> -->
-# Arch Installer
+# Arch Installer (Enhanced Edition)
 [![Lint Python and Find Syntax Errors](https://github.com/archlinux/archinstall/actions/workflows/flake8.yaml/badge.svg)](https://github.com/archlinux/archinstall/actions/workflows/flake8.yaml)
 
 Just another guided/automated [Arch Linux](https://wiki.archlinux.org/index.php/Arch_Linux) installer with a twist.
-The installer also doubles as a python library to install Arch Linux and manage services, packages, and other things inside the installed system *(Usually from a live medium or from an existing installation)*.
+This fork enhances the standard `archinstall` with modern tooling, extreme transparency, and high-performance defaults.
 
-* archinstall [discord](https://discord.gg/aDeMffrxNg) server
-* archinstall [#archinstall:matrix.org](https://matrix.to/#/#archinstall:matrix.org) Matrix channel
-* archinstall [#archinstall@irc.libera.chat:6697](https://web.libera.chat/?channel=#archinstall)
-* archinstall [documentation](https://archinstall.archlinux.page/)
+## 🚀 Massive Improvements in this Fork
+
+This version transforms the installer from a "black box" into a professional system deployment tool.
+
+### 🛠️ Modern Tooling & Power User Suite
+We've replaced legacy GNU coreutils with blazingly fast, modern Rust-based alternatives via a new **Power User Profile**.
+- **`eza`** (replaces `ls`) - Better colors, git integration, and icons.
+- **`bat`** (replaces `cat`) - Syntax highlighting and paging.
+- **`ripgrep` / `rg`** (replaces `grep`) - The fastest recursive search tool available.
+- **`fd`** (replaces `find`) - Simple, fast, and intuitive file finding.
+- **`bottom` / `btm`** (replaces `top`/`htop`) - A modern, graphical TUI system monitor.
+- **`zoxide`** & **`fzf`** - Smart navigation and fuzzy finding.
+- **`neovim`** - The modern evolution of Vim.
+
+### 🧊 High-Performance Storage
+Optimized defaults for modern SSDs and NVMe drives:
+- **Btrfs Optimization**: Automatic application of `compress=zstd:3` (transparent compression for speed and space) and `noatime` (reducing unnecessary writes to prolong SSD life).
+
+### 🔍 The "Glass Box" Experience (Transparency)
+No more guessing what's happening during the installation process.
+- **Live Log Stream**: A real-time, reactive log viewer integrated directly into the TUI.
+- **Instant Telemetry**: See exactly which `pacstrap` or `arch-chroot` commands are running as they happen.
+
+### 📦 3rd-Party Repository Integration
+First-class support for external repositories without the "Invalid Signature" headaches:
+- **Seamless Injection**: Add repositories like **CachyOS** or **Chaotic-AUR** directly via the installer.
+- **Automated GPG Trust**: Automatic import and signing of 3rd-party GPG keys during the chroot phase.
+
+---
 
 # Installation & Usage
 > [!TIP]
@@ -190,29 +215,29 @@ It will go through everything from packaging, building and running *(with qemu)*
 
 ## Boot an Arch ISO image in a VM
 
-You may want to boot an ISO image in a VM to test `archinstall` in there.
+You may want to boot an ISO in a VM to test `archinstall` in there.
 
 * Download the latest [Arch ISO](https://archlinux.org/download/)
 * Use the the below command to boot the ISO in a VM
 
 ```
-qemu-system-x86_64 -enable-kvm \
--machine q35,accel=kvm -device intel-iommu \
--cpu host -m 4096 -boot order=d \
--drive if=pflash,format=raw,readonly,file=/usr/share/edk2/x64/OVMF_CODE.4m.fd \
--drive if=pflash,format=raw,readonly,file=/usr/share/edk2/x64/OVMF_VARS.4m.fd \
+qemu-system-x86_64 -enable-kvm \\\
+-machine q35,accel=kvm -device intel-iommu \\\
+-cpu host -m 4096 -boot order=d \\\
+-drive if=pflash,format=raw,readonly,file=/usr/share/edk2/x64/OVMF_CODE.4m.fd \\\
+-drive if=pflash,format=raw,readonly,file=/usr/share/edk2/x64/OVMF_VARS.4m.fd \\\
 -drive file=./archlinux-2025.12.01-x86_64.iso,format=raw
 ```
 
 HINT: For espeakup support
 ```
-qemu-system-x86_64 -enable-kvm \
--machine q35,accel=kvm -device intel-iommu \
--cpu host -m 4096 -boot order=d \
--drive if=pflash,format=raw,readonly,file=/usr/share/edk2/x64/OVMF_CODE.4m.fd \
--drive if=pflash,format=raw,readonly,file=/usr/share/edk2/x64/OVMF_VARS.4m.fd \
--drive file=./archlinux-2025.12.01-x86_64.iso,format=raw \
--device intel-hda -device hda-duplex,audiodev=snd0 \
+qemu-system-x86_64 -enable-kvm \\\
+-machine q35,accel=kvm -device intel-iommu \\\
+-cpu host -m 4096 -boot order=d \\\
+-drive if=pflash,format=raw,readonly,file=/usr/share/edk2/x64/OVMF_CODE.4m.fd \\\
+-drive if=pflash,format=raw,readonly,file=/usr/share/edk2/x64/OVMF_VARS.4m.fd \\\
+-drive file=./archlinux-2025.12.01-x86_64.iso,format=raw \\\
+-device intel-hda -device hda-duplex,audiodev=snd0 \\\
 -audiodev pa,id=snd0,server=/run/user/1000/pulse/native
 ```
 
@@ -221,7 +246,7 @@ qemu-system-x86_64 -enable-kvm \
 
 ## AUR
 
-`archinstall` will not offer or bundle AUR helpers or AUR packages due to a current consensus. This is not any individual developers decision. The reasons and discussions for this stance on the topic can be found on our mailing list thread: [(optional) AUR helper in archinstall](https://lists.archlinux.org/archives/list/arch-dev-public@lists.archlinux.org/thread/VYOULH2GOJLFM2BXOFLWH3D754YXFPSL/).
+`archinstall` will not offer or bundle AUR helpers or AUR packages due to a current consensus. This is not any individual developers decision. The reasons and discussions on this stance on the topic can be found on our mailing list thread: [(optional) AUR helper in archinstall](https://lists.archlinux.org/archives/list/arch-dev-public@lists.archlinux.org/thread/VYOULH2GOJLFM2BXOFLWH3D754YXFPSL/).
 
 ## Keyring out-of-date
 For a description of the problem see https://archinstall.archlinux.page/help/known_issues.html#keyring-is-out-of-date-2213 and discussion in issue https://github.com/archlinux/archinstall/issues/2213.
