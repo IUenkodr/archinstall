@@ -1,3 +1,4 @@
+from archinstall.lib.models.packages import ThirdPartyRepository
 import argparse
 import json
 import os
@@ -93,6 +94,7 @@ class ArchConfigType(StrEnum):
 	SERVICES = auto()
 	PACKAGES = auto()
 	PACMAN_CONFIG = auto()
+	THIRD_PARTY_REPOS = auto()
 	CUSTOM_COMMANDS = auto()
 
 	def text(self) -> str:
@@ -134,6 +136,8 @@ class ArchConfigType(StrEnum):
 			case ArchConfigType.PACKAGES:
 				return tr('Additional packages')
 			case ArchConfigType.PACMAN_CONFIG:
+t		case ArchConfigType.THIRD_PARTY_REPOS:
+				return tr("Third Party Repositories")
 				return tr('Pacman')
 			case ArchConfigType.CUSTOM_COMMANDS:
 				return tr('Custom commands')
@@ -169,6 +173,7 @@ class ArchConfig:
 	ntp: bool = True
 	packages: list[str] = field(default_factory=list)
 	pacman_config: PacmanConfiguration = field(default_factory=PacmanConfiguration)
+tthird_party_repos: list[ThirdPartyRepository] = field(default_factory=list)
 	timezone: str = 'UTC'
 	services: list[str] = field(default_factory=list)
 	custom_commands: list[str] = field(default_factory=list)
