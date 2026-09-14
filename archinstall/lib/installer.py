@@ -50,7 +50,7 @@ from archinstall.lib.models.locale import LocaleConfiguration
 from archinstall.lib.models.mirrors import MirrorConfiguration
 from archinstall.lib.models.network import Nic
 from archinstall.lib.models.package_types import DEFAULT_KERNEL, Kernel
-from archinstall.lib.models.packages import Repository
+from archinstall.lib.models.packages import Repository, ThirdPartyRepository
 from archinstall.lib.models.pacman import PacmanConfiguration
 from archinstall.lib.models.users import User
 from archinstall.lib.packages.packages import installed_package
@@ -133,6 +133,21 @@ class Installer:
 		self._disable_fstrim = False
 
 		self.pacman = Pacman(self.target, silent)
+	def trust_third_party_repos(self, repos: list['ThirdPartyRepository']) -> None:
+		"""Import and sign GPG keys for third-party repositories within the chroot."""
+		if not repos:
+			return
+
+		info(tr('Trusting third-party repository keys...'))
+		for repo in repos:
+			if repo.gpg_key:
+				debug(f'Importing key for {repo.name}: {repo.gpg_key}')
+				# Use arch-chroot to run pacman-key commands
+				SysCommand(f'arch-chroot {self.target} pacman-key --recv-keys {repo.gpg_key}')
+				SysCommand(f'arch-chroot {self.target} pacman-key --lsign-key {repo.gpg_key}')
+			else:
+				warn(f'No GPG key provided for {repo.name}, skipping trust step')
+
 
 	def __enter__(self) -> Self:
 		return self

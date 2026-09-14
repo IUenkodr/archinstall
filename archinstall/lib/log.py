@@ -23,6 +23,9 @@ class Logger:
 	@path.setter
 	def path(self, value: Path) -> None:
 		self._path = value
+	def add_listener(self, callback: callable) -> None:
+		self._listeners.append(callback)
+
 
 	@property
 	def directory(self) -> Path:

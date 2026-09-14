@@ -9,6 +9,20 @@ from archinstall.lib.translationhandler import tr
 
 
 class Repository(Enum):
+
+
+@dataclass
+class ThirdPartyRepository:
+	name: str
+	server: str
+	gpg_key: str | None = None
+
+@dataclass
+class ThirdPartyRepository:
+	name: str
+	server: str
+	gpg_key: str | None = None
+
 	Core = 'core'
 	Extra = 'extra'
 	Multilib = 'multilib'

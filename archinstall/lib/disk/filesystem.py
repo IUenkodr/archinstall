@@ -71,6 +71,8 @@ class FilesystemHandler:
 
 				for part_mod in mod.partitions:
 					if part_mod.fs_type == FilesystemType.BTRFS and part_mod.is_create_or_modify():
+						if not part_mod.mount_options:
+								part_mod.mount_options = ["compress=zstd:3", "noatime"]
 						device_handler.create_btrfs_volumes(part_mod, enc_conf=self._enc_config)
 
 	def _format_partitions(
